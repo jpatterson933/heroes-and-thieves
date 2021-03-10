@@ -28,6 +28,7 @@ class Character {
     }
     //jackstorm has a health regen ability that happens every 5 seconds
     healthRegen () {
+        console.log(`${this.name} has regnerated 30 Health`)
         this.health += 30;
     }
     //2nd Tier Attack
@@ -52,14 +53,13 @@ nebula.printHealth()
 //defines jackstrom's turn
 let jackStromTurn = true;
 
-
+//HOW DO I STOP JACKSTROM FROM REGENERATING HEALTH!!?!?!?
 //jackStrom health regeneration happens every 5 seconds
 const healthInterval = setInterval(() => {
-    if (jackStrom.isAlive()) {
-        jackStrom.healthRegen();
-    } else if(!jackStrom.isAlive()) {
+    if (!jackStrom.isAlive()) {
         clearInterval(healthInterval)
     }
+    jackStrom.healthRegen();
 }, 5000);
 
 //first fight
