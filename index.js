@@ -19,8 +19,12 @@ class Character {
         return false;
     }
 
-    attack (opponent) {
-        opponent.health -= this.strength
+    charge (opponent) {
+        opponent.health -= this.attack;
+    }
+
+    healthRegen () {
+        this.health += 5000;
     }
 }
 
@@ -32,5 +36,29 @@ const nebula = new Character ('nubula', 3000, 50, 300);
 jackStrom.printStats()
 nebula.printStats()
 
-jackStrom.attack(nebula)
-nebula.printStats()
+let jackStromTurn = true;
+
+const turnInterval = setInterval(() => {
+    // If either character is not alive, end the game
+    if (!jackStrom.isAlive() || !nebula.isAlive()) {
+      clearInterval(turnInterval);
+      console.log('Game over!');
+    } else if (jackStromTurn) {
+      jackStrom.charge(nebula);
+      nebula.printStats();
+    } else {
+      nebula.charge(jackStrom);
+      jackStrom.printStats();
+    }
+  
+    // Switch turns
+    jackStromTurn = !jackStromTurn;
+  }, 200);
+
+  const healthInterval = setInterval(() => {
+      if (!jackStrom.isAlive() || !nebula.isAlive()) {
+          clearInterval(healthInterval);
+      } 
+
+      nebula.healthRegen();
+  }, 2000);
