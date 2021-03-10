@@ -1,29 +1,32 @@
 console.log(process.argv)
 
+//basic character class // tomorrow try and add a class for boss characters
 class Character {
+    //defense never used here
     constructor (name, health, attack, defense) {
         this.name = name;
         this.health = health;
         this.attack = attack;
         this.defense = defense;
     }
-
+    //print health when a person is damaged // is there a way to print damage taken?
     printHealth() {
         console.log(`${this.name} Health: ${this.health}`)
     }
 
+    //this checks to see if our character is alive
     isAlive () {
         if (this.health >= 0) {
             return true;
         }   
         return false;
     }
-
+    //a basic character attack
     charge (opponent) {
         console.log(`${this.name} charges ${opponent.name}`)
         opponent.health -= this.attack;
     }
-
+    //jackstorm has a health regen ability that happens every 5 seconds
     healthRegen () {
         this.health += 30;
     }
@@ -33,21 +36,24 @@ class Character {
         opponent.health -=1050
     }
 }
-//ability to recover health slowly                                //health, attack, defense
+//ability to recover health slowly         //health, attack, defense
 const jackStrom = new Character ('JackStrom', 1000, 250, 75);
-const nebula = new Character ('nubula', 1000, 50, 300);
 
+//secondary characters
+const nebula = new Character ('nubula', 1000, 50, 300);
 const grant = new Character ('GRANT', 1000, 160, 109)
+//boss character
 const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
 
 
 jackStrom.printHealth()
 nebula.printHealth()
 
+//defines jackstrom's turn
 let jackStromTurn = true;
 
 
-//jackStrom health regeneration
+//jackStrom health regeneration happens every 5 seconds
 const healthInterval = setInterval(() => {
     if (jackStrom.isAlive()) {
         jackStrom.healthRegen();
@@ -56,6 +62,7 @@ const healthInterval = setInterval(() => {
     }
 }, 5000);
 
+//first fight
 const turnInterval = setInterval(() => {
     // If either character is not alive, end the game
     if (!jackStrom.isAlive() || !nebula.isAlive()) {
@@ -75,12 +82,10 @@ const turnInterval = setInterval(() => {
 }, 500);
 
 
+grant.printHealth()
 
-
-  //we know nebula is going to lose so we set up the next fight and rig the system
-
-  grant.printHealth()
-
+//we know nebula is going to lose so we set up the next fight and rig the system
+//so we can say in this when nebular is ! alive excuted next fight
   const nextTurnInterval = setInterval(() => {
       if (!nebula.isAlive()) {
           clearInterval(nextTurnInterval);
@@ -106,6 +111,7 @@ const turnInterval = setInterval(() => {
   }, 
 );
 
+//boss fight
 const levelOneBossFight = setInterval(() => {
     if(!grant.isAlive() || !jackStrom.isAlive() || !ironGiant.isAlive()) {
         clearInterval(levelOneBossFight);
