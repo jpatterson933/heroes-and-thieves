@@ -11,13 +11,26 @@ class Character {
     printStats() {
         console.log(`${this.name} has ${this.health} health left`)
     }
-    defend () {
-        if (this.attack > this.defense) {
-            this.health -= 1;
-        }
+
+    isAlive () {
+        if (this.health >= 0) {
+            return true;
+        }   
+        return false;
+    }
+
+    attack (opponent) {
+        opponent.health -= this.strength
     }
 }
 
-jackStrom = new Character ('jackStrom', 1000, 250, 75)
+const jackStrom = new Character ('jackStrom', 1000, 250, 75);
+const nebula = new Character ('nubula', 3000, 50, 300);
+
+
 
 jackStrom.printStats()
+nebula.printStats()
+
+jackStrom.attack(nebula)
+nebula.printStats()
