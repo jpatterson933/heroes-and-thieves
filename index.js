@@ -39,6 +39,7 @@ class Character {
 const jackStrom = new Character ('jackStrom', 1000, 250, 75);
 const nebula = new Character ('nubula', 1000, 50, 300);
 
+const grant = new Character ('GRANT', 1000, 160, 109)
 
 
 jackStrom.printStats()
@@ -70,3 +71,22 @@ const turnInterval = setInterval(() => {
 
       nebula.healthRegen();
   }, 10000);
+
+  //we know nebula is going to lose so we set up the next fight and rig the system
+
+  grant.printStats()
+
+  const nextTurnInterval = setInterval(() => {
+      if (!nebula.isAlive()) {
+          clearInterval(nextTurnInterval);
+          console.log('NEXT FIGHT!!!');
+      } 
+
+      
+      if(jackStromTurn) {
+        jackStrom.charge(grant);
+        grant.printStats();
+    } else grant.charge(jackStrom)
+        jackStrom.printStats();
+      
+  }, 500);
