@@ -25,15 +25,13 @@ class Character {
     }
 
     healthRegen () {
-        this.health += 5000;
+        this.health += 30;
     }
-
+    //2nd Tier Attack
     powerSlam (opponent) {
         console.log(`${this.name} POWER SLAMS ${opponent.name}`)
-        opponent.health -=1000
+        opponent.health -=1050
     }
-
-    
 }
 //ability to recover health slowly                                //health, attack, defense
 const jackStrom = new Character ('JackStrom', 1000, 250, 75);
@@ -49,6 +47,14 @@ nebula.printHealth()
 let jackStromTurn = true;
 
 
+//jackStrom health regeneration
+const healthInterval = setInterval(() => {
+    if (jackStrom.isAlive()) {
+        jackStrom.healthRegen();
+    } else if(!jackStrom.isAlive()) {
+        clearInterval(healthInterval)
+    }
+}, 5000);
 
 const turnInterval = setInterval(() => {
     // If either character is not alive, end the game
@@ -68,14 +74,6 @@ const turnInterval = setInterval(() => {
     
 }, 500);
 
-//const for nebula to generate health but she never does// maybe change this to jackstrom a small increment over time
-const healthInterval = setInterval(() => {
-    if (!jackStrom.isAlive() || !nebula.isAlive()) {
-        clearInterval(healthInterval);
-    } 
-    nebula.healthRegen();
-    
-}, 10000);
 
 
 
@@ -92,7 +90,6 @@ const healthInterval = setInterval(() => {
             if (!jackStrom.isAlive() || !grant.isAlive()) {
               clearInterval(turnInterval);
               console.log('BOSS FIGHT!');
-              jackStrom.printHealth()
             } else if (jackStromTurn) {
               jackStrom.charge(grant);
               grant.printHealth();
@@ -103,20 +100,21 @@ const healthInterval = setInterval(() => {
           
             // Switch turns
             jackStromTurn = !jackStromTurn;
+
           }, 1000);
       } 
   }, 
 );
 
 const levelOneBossFight = setInterval(() => {
-    if(!grant.isAlive()) {
+    if(!grant.isAlive() || !jackStrom.isAlive() || !ironGiant.isAlive()) {
         clearInterval(levelOneBossFight);
+
 
         const turnInterval = setInterval(() => {
             if (!jackStrom.isAlive() || !ironGiant.isAlive()) {
                 clearInterval(turnInterval);
-                console.log(`Game Over ${jackStrom.name} lost!`);
-                jackStrom.printHealth()
+                console.log(`Game Over ${jackStrom.name} IS THE CHAMPION!`);
               } else if (jackStromTurn) {
                 jackStrom.powerSlam(ironGiant);
                 ironGiant.printHealth();
@@ -128,9 +126,9 @@ const levelOneBossFight = setInterval(() => {
               // Switch turns
               jackStromTurn = !jackStromTurn;
             
-        }, 500);
-    }
-    
-},);
+            }, 500);
+        }
+        
+    }, 1000);
 
   
