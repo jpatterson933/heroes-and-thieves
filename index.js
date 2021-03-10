@@ -19,18 +19,74 @@ class Character {
         return false;
     }
 
-    attack (opponent) {
-        opponent.health -= this.strength
+    charge (opponent) {
+
+
+        opponent.health -= this.attack;
     }
+
+    healthRegen () {
+        this.health += 5000;
+    }
+
+    defensiveForce () {
+        
+    }
+
+    
 }
-
+                                            //health, attack, defense
 const jackStrom = new Character ('jackStrom', 1000, 250, 75);
-const nebula = new Character ('nubula', 3000, 50, 300);
+const nebula = new Character ('nubula', 1000, 50, 300);
 
+const grant = new Character ('GRANT', 1000, 160, 109)
 
 
 jackStrom.printStats()
 nebula.printStats()
 
-jackStrom.attack(nebula)
-nebula.printStats()
+let jackStromTurn = true;
+
+const turnInterval = setInterval(() => {
+    // If either character is not alive, end the game
+    if (!jackStrom.isAlive() || !nebula.isAlive()) {
+      clearInterval(turnInterval);
+      console.log('Game over!');
+    } else if (jackStromTurn) {
+      jackStrom.charge(nebula);
+      nebula.printStats();
+    } else {
+      nebula.charge(jackStrom);
+      jackStrom.printStats();
+    }
+  
+    // Switch turns
+    jackStromTurn = !jackStromTurn;
+  }, 500);
+
+  const healthInterval = setInterval(() => {
+      if (!jackStrom.isAlive() || !nebula.isAlive()) {
+          clearInterval(healthInterval);
+      } 
+
+      nebula.healthRegen();
+  }, 10000);
+
+  //we know nebula is going to lose so we set up the next fight and rig the system
+
+  grant.printStats()
+
+  const nextTurnInterval = setInterval(() => {
+      if (!nebula.isAlive()) {
+          clearInterval(nextTurnInterval);
+          console.log('NEXT FIGHT!!!');
+      } 
+
+      
+      if(jackStromTurn) {
+        jackStrom.charge(grant);
+        grant.printStats();
+    } else grant.charge(jackStrom)
+        jackStrom.printStats();
+      
+  }, 500);
