@@ -51,7 +51,7 @@ const turnInterval = setInterval(() => {
     // If either character is not alive, end the game
     if (!jackStrom.isAlive() || !nebula.isAlive()) {
       clearInterval(turnInterval);
-      console.log('Game over!');
+      console.log('NEXT FIGHT!');
     } else if (jackStromTurn) {
       jackStrom.charge(nebula);
       nebula.printStats();
@@ -79,14 +79,25 @@ const turnInterval = setInterval(() => {
   const nextTurnInterval = setInterval(() => {
       if (!nebula.isAlive()) {
           clearInterval(nextTurnInterval);
-          console.log('NEXT FIGHT!!!');
+
+          const turnInterval = setInterval(() => {
+            // If either character is not alive, end the game
+            if (!jackStrom.isAlive() || !grant.isAlive()) {
+              clearInterval(turnInterval);
+              console.log('Game over!');
+            } else if (jackStromTurn) {
+              jackStrom.charge(grant);
+              grant.printStats();
+            } else {
+              grant.charge(jackStrom);
+              jackStrom.printStats();
+            }
+          
+            // Switch turns
+            jackStromTurn = !jackStromTurn;
+          }, 1000);
+          
       } 
 
-      
-      if(jackStromTurn) {
-        jackStrom.charge(grant);
-        grant.printStats();
-    } else grant.charge(jackStrom)
-        jackStrom.printStats();
       
   }, 500);
