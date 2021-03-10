@@ -20,16 +20,24 @@ class Character {
     }
 
     charge (opponent) {
+
+
         opponent.health -= this.attack;
     }
 
     healthRegen () {
         this.health += 5000;
     }
-}
 
+    defensiveForce () {
+        
+    }
+
+    
+}
+                                            //health, attack, defense
 const jackStrom = new Character ('jackStrom', 1000, 250, 75);
-const nebula = new Character ('nubula', 3000, 50, 300);
+const nebula = new Character ('nubula', 1000, 50, 300);
 
 
 
@@ -53,7 +61,7 @@ const turnInterval = setInterval(() => {
   
     // Switch turns
     jackStromTurn = !jackStromTurn;
-  }, 200);
+  }, 500);
 
   const healthInterval = setInterval(() => {
       if (!jackStrom.isAlive() || !nebula.isAlive()) {
@@ -61,4 +69,4 @@ const turnInterval = setInterval(() => {
       } 
 
       nebula.healthRegen();
-  }, 2000);
+  }, 10000);
