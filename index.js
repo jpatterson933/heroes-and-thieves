@@ -13,7 +13,7 @@ class Character {
   }
 
 
-  
+
   //print health when a person is damaged // is there a way to print damage taken?
   // this console logs the characters name and the characters health
   printHealth() {
@@ -58,11 +58,6 @@ class Character {
 
 
 
-
-
-
-
-
 // hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
 const devyBones = new Character('Devy Bones', 1180, 289, 45);
@@ -80,18 +75,28 @@ jackStrom.printHealth()
 nebula.printHealth()
 
 // funciton to display hero list - parameter will be the heroes list
-const characterList = (x) => {
-  const heroName = document.getElementById("hero-list")
+const characterCardList = (x) => {
+  const heroName = $("#hero-list")
 
   // for loop to cycle through heroes
-  for (let i = 0; i < x.length; i++){
+  for (let i = 0; i < x.length; i++) {
+
+    characterCard = `
+    <ul>
+      <li>${x[i].name}</li>
+      <li>${x[i].health}</li>
+      <li>${x[i].attack}</li>
+      <li>${x[i].defense}</li>
+    </ul>
+    `;
+
     // here we cycle through our heroes list names
     // for each one we append the heroes names to our dom
-    heroName.append(x[i].name)
+    heroName.append(characterCard)
   }
 }
 
-characterList(heroes);
+characterCardList(heroes);
 
 //defines jackstrom's turn
 let jackStromTurn = true;
@@ -112,15 +117,15 @@ const attackButton = document.getElementById("attack");
 
 
 // function for heros attack
-attackButton.addEventListener("click",  function () {
+attackButton.addEventListener("click", function () {
 
   const heroName = document.getElementById("hero-name")
 
-    heroName.append(jackStrom.name);
+  heroName.append(jackStrom.name);
 
   if (!jackStrom.isAlive() || !nebula.isAlive()) {
     console.log('NEXT FIGHT!');
-  } else if (jackStrom.isAlive()){
+  } else if (jackStrom.isAlive()) {
 
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
