@@ -1,7 +1,5 @@
 // console.log(process.argv)
 
-const currentHeroCard = document.getElementById("current-hero-card");
-
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
   //defense never used here
@@ -12,8 +10,6 @@ class Character {
     this.defense = defense;
   }
 
-
-
   //print health when a person is damaged // is there a way to print damage taken?
   // this console logs the characters name and the characters health
   printHealth() {
@@ -21,10 +17,12 @@ class Character {
     console.log(`${this.name} Health: ${this.health}`)
   }
 
-  attackAdjustment(attackPower /* second parameter should be opponenets defense maybe use a different function */) {
+  attackAdjustment(attackPower, opponentDefense) {
+
+    let buffer = defenseBuffer(opponentDefense);
     // This randomizes our characters attack
-    let attackAdjustment = attackPower * (Math.random() + 0.6);
-    return attackAdjustment;
+    let attackAdjustment = buffer * (attackPower * (Math.random() + 0.6));
+    return Math.round(attackAdjustment);
   }
 
   damageTaken(opponent) {
@@ -56,15 +54,38 @@ class Character {
   }
 }
 
+// what I could do is create a function that reads oppoenents defense and returns a buffer unit
+// lets say defense is less than fifty, than the buffer from the attack is 0
+// but if defense is more than 50 but less than 250 then the buffer is more etc. etc.
 
+const defenseBuffer = (defense) => {
+  if (defense <= 0) {
+    return 1.5;
+  } else if (defense <= 100) {
+    return 1;
+  } else if (defense > 100 || defense <= 300) {
+    return .9;
+  }
+  else if (defense > 300 || defense <= 500) {
+    return .8;
+  }
+  else if (defense > 500 || defense <= 100) {
+    return .7;
+  }
+}
 
 // hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
 const devyBones = new Character('Devy Bones', 1180, 289, 45);
 
+// console.log(jackStrom)
+// for (let i = 0; i < jackStrom.length; i++){
+//   console.log("test")
+// }
+
 const heroes = [jackStrom, devyBones]
 
-console.log(heroes[0].name)
+// console.log(heroes[0].name)
 //secondary characters
 const nebula = new Character('nubula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
@@ -75,28 +96,48 @@ jackStrom.printHealth()
 nebula.printHealth()
 
 // funciton to display hero list - parameter will be the heroes list
-const characterCardList = (x) => {
-  const heroName = $("#hero-list-wrapper")
+const heroListWrapper = $("#hero-list-wrapper")
+let characterCardList = (x, y) => {
 
   // for loop to cycle through heroes
   for (let i = 0; i < x.length; i++) {
-
+    // character card list - can be used for any characters
     characterCard = `
     <ul id="hero-card-details-wrapper">
       <li>${x[i].name}</li>
-      <li>${x[i].health}</li>
-      <li>${x[i].attack}</li>
-      <li>${x[i].defense}</li>
+      <li>Health: ${x[i].health}</li>
+      <li>Attack Strength: ${x[i].attack}</li>
+      <li>Defense: ${x[i].defense}</li>
     </ul>
     `;
 
     // here we cycle through our heroes list names
     // for each one we append the heroes names to our dom
-    heroName.append(characterCard)
+    y.append(characterCard)
   }
 }
 
-characterCardList(heroes);
+// function to display individual characters (character, where to append card);
+const characterCardDisplay = (x, y) => {
+
+    // character card list - can be used for any characters
+    card = `
+    <ul id="character-details">
+      <li>${x.name}</li>
+      <li>Health: ${x.health}</li>
+      <li>Attack Strength: ${x.attack}</li>
+      <li>Defense: ${x.defense}</li>
+    </ul>
+    `;
+
+    // here we cycle through our heroes list names
+    // for each one we append the heroes names to our dom
+    y.append(card)
+}
+
+
+// displays our characters - first paramater is which character second parameter is where to append
+characterCardList(heroes, heroListWrapper);
 
 //defines jackstrom's turn
 let jackStromTurn = true;
@@ -112,24 +153,31 @@ const healthInterval = setInterval(() => {
 
 // grab our attack button
 const attackButton = document.getElementById("attack");
-// console.log(attackButton)
 
-
+// our click set to false for appending our current hero card;
+let _clicked = false;
 
 // function for heros attack
 attackButton.addEventListener("click", function () {
 
-  const heroName = document.getElementById("hero-name")
+  // if statement that only allows one appendage on click
+  if (!_clicked){
+  
+    const currentHeroCard = $("#current-hero-card");
+    characterCardDisplay(jackStrom, currentHeroCard);
+    // sets click to true after appendage
+    _clicked = true;
+  } 
 
-  heroName.append(jackStrom.name);
-
+  
+  
   if (!jackStrom.isAlive() || !nebula.isAlive()) {
     console.log('NEXT FIGHT!');
   } else if (jackStrom.isAlive()) {
-
+    
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
-    jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+    jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
     jackStrom.charge(nebula);
     nebula.printHealth();
     nebula.damageTaken(jackStrom);
@@ -176,7 +224,7 @@ const nextTurnInterval = setInterval(() => {
         clearInterval(turnInterval);
         console.log('BOSS FIGHT!');
       } else if (jackStromTurn) {
-        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, grant.defense)
 
         jackStrom.charge(grant);
         grant.printHealth();
@@ -204,7 +252,7 @@ const levelOneBossFight = setInterval(() => {
         clearInterval(turnInterval);
         console.log(`Game Over ${jackStrom.name} IS THE CHAMPION!`);
       } else if (jackStromTurn) {
-        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, ironGiant.defense)
 
         jackStrom.powerSlam(ironGiant);
         ironGiant.printHealth();
