@@ -1,5 +1,7 @@
 // console.log(process.argv)
 
+const currentHeroCard = document.getElementById("current-hero-card");
+
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
   //defense never used here
@@ -10,14 +12,16 @@ class Character {
     this.defense = defense;
   }
 
+
   
   //print health when a person is damaged // is there a way to print damage taken?
   // this console logs the characters name and the characters health
   printHealth() {
+
     console.log(`${this.name} Health: ${this.health}`)
   }
 
-  attackAdjustment(attackPower /* second parameter should be opponenets defense */) {
+  attackAdjustment(attackPower /* second parameter should be opponenets defense maybe use a different function */) {
     // This randomizes our characters attack
     let attackAdjustment = attackPower * (Math.random() + 0.6);
     return attackAdjustment;
@@ -52,17 +56,20 @@ class Character {
   }
 }
 
-const heroCard = `
-  <ul>
-    <li>her name</li>
-    <li>health</li>
-  </ul>
-`;
+
+
+
+
 
 
 
 // hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
+const devyBones = new Character('Devy Bones', 1180, 289, 45);
+
+const heroes = [jackStrom, devyBones]
+
+console.log(heroes[0].name)
 //secondary characters
 const nebula = new Character('nubula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
@@ -71,6 +78,20 @@ const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
 
 jackStrom.printHealth()
 nebula.printHealth()
+
+// funciton to display hero list - parameter will be the heroes list
+const characterList = (x) => {
+  const heroName = document.getElementById("hero-list")
+
+  // for loop to cycle through heroes
+  for (let i = 0; i < x.length; i++){
+    // here we cycle through our heroes list names
+    // for each one we append the heroes names to our dom
+    heroName.append(x[i].name)
+  }
+}
+
+characterList(heroes);
 
 //defines jackstrom's turn
 let jackStromTurn = true;
@@ -88,8 +109,14 @@ const healthInterval = setInterval(() => {
 const attackButton = document.getElementById("attack");
 // console.log(attackButton)
 
+
+
 // function for heros attack
 attackButton.addEventListener("click",  function () {
+
+  const heroName = document.getElementById("hero-name")
+
+    heroName.append(jackStrom.name);
 
   if (!jackStrom.isAlive() || !nebula.isAlive()) {
     console.log('NEXT FIGHT!');
