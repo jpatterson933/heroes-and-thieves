@@ -9,17 +9,17 @@ class Character {
     this.attack = attack;
     this.defense = defense;
   }
+
+  
   //print health when a person is damaged // is there a way to print damage taken?
   // this console logs the characters name and the characters health
   printHealth() {
-
-
     console.log(`${this.name} Health: ${this.health}`)
   }
 
-  attackAdjustment(attackPower) {
+  attackAdjustment(attackPower /* second parameter should be opponenets defense */) {
     // This randomizes our characters attack
-    let attackAdjustment = attackPower * (Math.random() + 0.5);
+    let attackAdjustment = attackPower * (Math.random() + 0.6);
     return attackAdjustment;
   }
 
@@ -52,8 +52,16 @@ class Character {
   }
 }
 
+const heroCard = `
+  <ul>
+    <li>her name</li>
+    <li>health</li>
+  </ul>
+`;
 
-//ability to recover health slowly         //health, attack, defense
+
+
+// hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
 //secondary characters
 const nebula = new Character('nubula', 1000, 50, 300);
@@ -61,14 +69,13 @@ const grant = new Character('GRANT', 1000, 160, 109)
 //boss character
 const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
 
-
 jackStrom.printHealth()
 nebula.printHealth()
 
 //defines jackstrom's turn
 let jackStromTurn = true;
 
-//HOW DO I STOP JACKSTROM FROM REGENERATING HEALTH!!?!?!?
+// Need to turn this into a use potion function where Jackstrom will regenerate health 5 times after using a postion
 //jackStrom health regeneration happens every 5 seconds
 const healthInterval = setInterval(() => {
   if (!jackStrom.isAlive()) {
@@ -77,50 +84,50 @@ const healthInterval = setInterval(() => {
   jackStrom.healthRegen();
 }, 5000);
 
+// grab our attack button
 const attackButton = document.getElementById("attack");
-console.log(attackButton)
+// console.log(attackButton)
 
+// function for heros attack
 attackButton.addEventListener("click",  function () {
-  console.log()
-  // If either character is not alive, end the game
-  if (!jackStrom.isAlive() || !nebula.isAlive()) {
-    clearInterval(turnInterval);
-    console.log('NEXT FIGHT!');
-  } else if (jackStromTurn) {
 
+  if (!jackStrom.isAlive() || !nebula.isAlive()) {
+    console.log('NEXT FIGHT!');
+  } else if (jackStrom.isAlive()){
+
+    /* take heros attack and run it through the attack adjustment function
+       this randomizes our attack power to provide more variability */
     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
     jackStrom.charge(nebula);
     nebula.printHealth();
     nebula.damageTaken(jackStrom);
-  }
 
+  }
   // Switch turns
   jackStromTurn = !jackStromTurn;
-
-
 });
 
 //first fight
-const turnInterval = setInterval(() => {
-  // If either character is not alive, end the game
-  if (!jackStrom.isAlive() || !nebula.isAlive()) {
-    clearInterval(turnInterval);
-    console.log('NEXT FIGHT!');
-  } else if (jackStromTurn) {
+// const turnInterval = setInterval(() => {
+//   // If either character is not alive, end the game
+//   if (!jackStrom.isAlive() || !nebula.isAlive()) {
+//     clearInterval(turnInterval);
+//     console.log('NEXT FIGHT!');
+//   } else if (jackStromTurn) {
 
-    jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
-    jackStrom.charge(nebula);
-    nebula.printHealth();
-    nebula.damageTaken(jackStrom);
-  } else {
-    nebula.charge(jackStrom);
-    jackStrom.printHealth();
-  }
+//     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+//     jackStrom.charge(nebula);
+//     nebula.printHealth();
+//     nebula.damageTaken(jackStrom);
+//   } else {
+//     nebula.charge(jackStrom);
+//     jackStrom.printHealth();
+//   }
 
-  // Switch turns
-  jackStromTurn = !jackStromTurn;
+//   // Switch turns
+//   jackStromTurn = !jackStromTurn;
 
-}, 4000);
+// }, 4000);
 
 
 grant.printHealth()
