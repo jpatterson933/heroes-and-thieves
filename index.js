@@ -76,13 +76,13 @@ nebula.printHealth()
 
 // funciton to display hero list - parameter will be the heroes list
 const characterCardList = (x) => {
-  const heroName = $("#hero-list")
+  const heroName = $("#hero-list-wrapper")
 
   // for loop to cycle through heroes
   for (let i = 0; i < x.length; i++) {
 
     characterCard = `
-    <ul>
+    <ul id="hero-card-details-wrapper">
       <li>${x[i].name}</li>
       <li>${x[i].health}</li>
       <li>${x[i].attack}</li>
