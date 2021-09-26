@@ -1,4 +1,4 @@
-console.log(process.argv)
+// console.log(process.argv)
 
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
@@ -13,12 +13,18 @@ class Character {
   // this console logs the characters name and the characters health
   printHealth() {
 
-    
+
     console.log(`${this.name} Health: ${this.health}`)
   }
 
-  damageTaken (opponent) {
-    console.log( `Damage Taken: ${opponent.attack}`)
+  attackAdjustment(attackPower) {
+    // This randomizes our characters attack
+    let attackAdjustment = attackPower * (Math.random() + 0.5);
+    return attackAdjustment;
+  }
+
+  damageTaken(opponent) {
+    console.log(`Damage Taken: ${opponent.attack}`)
   }
 
 
@@ -45,9 +51,10 @@ class Character {
     opponent.health -= 1050
   }
 }
+
+
 //ability to recover health slowly         //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
-
 //secondary characters
 const nebula = new Character('nubula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
@@ -70,6 +77,29 @@ const healthInterval = setInterval(() => {
   jackStrom.healthRegen();
 }, 5000);
 
+const attackButton = document.getElementById("attack");
+console.log(attackButton)
+
+attackButton.addEventListener("click",  function () {
+  console.log()
+  // If either character is not alive, end the game
+  if (!jackStrom.isAlive() || !nebula.isAlive()) {
+    clearInterval(turnInterval);
+    console.log('NEXT FIGHT!');
+  } else if (jackStromTurn) {
+
+    jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+    jackStrom.charge(nebula);
+    nebula.printHealth();
+    nebula.damageTaken(jackStrom);
+  }
+
+  // Switch turns
+  jackStromTurn = !jackStromTurn;
+
+
+});
+
 //first fight
 const turnInterval = setInterval(() => {
   // If either character is not alive, end the game
@@ -77,9 +107,11 @@ const turnInterval = setInterval(() => {
     clearInterval(turnInterval);
     console.log('NEXT FIGHT!');
   } else if (jackStromTurn) {
+
+    jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
     jackStrom.charge(nebula);
     nebula.printHealth();
-    nebula.damageTaken(jackStrom)
+    nebula.damageTaken(jackStrom);
   } else {
     nebula.charge(jackStrom);
     jackStrom.printHealth();
@@ -88,7 +120,7 @@ const turnInterval = setInterval(() => {
   // Switch turns
   jackStromTurn = !jackStromTurn;
 
-}, 10000);
+}, 4000);
 
 
 grant.printHealth()
@@ -105,6 +137,8 @@ const nextTurnInterval = setInterval(() => {
         clearInterval(turnInterval);
         console.log('BOSS FIGHT!');
       } else if (jackStromTurn) {
+        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+
         jackStrom.charge(grant);
         grant.printHealth();
       } else {
@@ -131,6 +165,8 @@ const levelOneBossFight = setInterval(() => {
         clearInterval(turnInterval);
         console.log(`Game Over ${jackStrom.name} IS THE CHAMPION!`);
       } else if (jackStromTurn) {
+        jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack)
+
         jackStrom.powerSlam(ironGiant);
         ironGiant.printHealth();
       } else {
