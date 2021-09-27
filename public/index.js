@@ -1,7 +1,7 @@
-// console.log(process.argv)
 
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
+  
   //defense never used here
   constructor(name, health, attack, defense) {
     this.name = name;
@@ -13,9 +13,12 @@ class Character {
   //print health when a person is damaged // is there a way to print damage taken?
   // this console logs the characters name and the characters health
   printHealth() {
-
     console.log(`${this.name} Health: ${this.health}`)
   }
+  
+
+
+
 
   attackAdjustment(attackPower, opponentDefense) {
 
@@ -26,6 +29,10 @@ class Character {
   }
 
   chargeDamageTaken(attacker, defender) {
+
+
+
+
     const dtWrapper = $("#action-screen");
     const damageTakenMessage =  `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
     dtWrapper.append(damageTakenMessage)
@@ -56,23 +63,6 @@ class Character {
   powerSlam(opponent) {
     console.log(`${this.name} POWER SLAMS ${opponent.name}`)
     opponent.health -= 1050
-  }
-}
-
-// defense buffer that buffers attack based off of characters defense levels
-const defenseBuffer = (defense) => {
-  if (defense <= 0) {
-    return 1.5;
-  } else if (defense <= 100) {
-    return 1;
-  } else if (defense > 100 || defense <= 300) {
-    return .9;
-  }
-  else if (defense > 300 || defense <= 500) {
-    return .8;
-  }
-  else if (defense > 500 || defense <= 100) {
-    return .7;
   }
 }
 
@@ -174,6 +164,7 @@ attackButton.addEventListener("click", function () {
     console.log(`You have defeated ${nebula.name}`)
   }
   else if (jackStrom.isAlive()) {
+
     
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
@@ -268,3 +259,19 @@ const levelOneBossFight = setInterval(() => {
 
 }, 1000);
 
+// defense buffer that buffers attack based off of characters defense levels
+const defenseBuffer = (defense) => {
+  if (defense <= 0) {
+    return 1.5;
+  } else if (defense <= 100) {
+    return 1;
+  } else if (defense > 100 || defense <= 300) {
+    return .9;
+  }
+  else if (defense > 300 || defense <= 500) {
+    return .8;
+  }
+  else if (defense > 500 || defense <= 100) {
+    return .7;
+  }
+}
