@@ -97,42 +97,43 @@ nebula.printHealth()
 
 // funciton to display hero list - parameter will be the heroes list
 const heroListWrapper = $("#hero-list-wrapper")
-let characterCardList = (x, y) => {
+let characterCardList = (heroes, appendTo) => {
 
   // for loop to cycle through heroes
-  for (let i = 0; i < x.length; i++) {
+  for (let i = 0; i < heroes.length; i++) {
     // character card list - can be used for any characters
     characterCard = `
     <ul id="hero-card-details-wrapper">
-      <li>${x[i].name}</li>
-      <li>Health: ${x[i].health}</li>
-      <li>Attack Strength: ${x[i].attack}</li>
-      <li>Defense: ${x[i].defense}</li>
+      <li>${heroes[i].name}</li>
+      <li>Health: ${heroes[i].health}</li>
+      <li>Attack Strength: ${heroes[i].attack}</li>
+      <li>Defense: ${heroes[i].defense}</li>
     </ul>
     `;
 
     // here we cycle through our heroes list names
     // for each one we append the heroes names to our dom
-    y.append(characterCard)
+    appendTo.append(characterCard)
   }
-}
+};
 
 // function to display individual characters (character, where to append card);
-const characterCardDisplay = (x, y) => {
+const characterCardDisplay = (character, appendTo) => {
 
     // character card list - can be used for any characters
     card = `
+    <h1>Hero Card</h1>
     <ul id="character-details">
-      <li>${x.name}</li>
-      <li>Health: ${x.health}</li>
-      <li>Attack Strength: ${x.attack}</li>
-      <li>Defense: ${x.defense}</li>
+      <li>${character.name}</li>
+      <li>Health: ${character.health}</li>
+      <li>Attack Strength: ${character.attack}</li>
+      <li>Defense: ${character.defense}</li>
     </ul>
     `;
 
     // here we cycle through our heroes list names
     // for each one we append the heroes names to our dom
-    y.append(card)
+    appendTo.append(card)
 }
 
 
@@ -167,13 +168,14 @@ attackButton.addEventListener("click", function () {
     characterCardDisplay(jackStrom, currentHeroCard);
     // sets click to true after appendage
     _clicked = true;
-  } 
+  };
 
-  
-  
-  if (!jackStrom.isAlive() || !nebula.isAlive()) {
-    console.log('NEXT FIGHT!');
-  } else if (jackStrom.isAlive()) {
+  if (!jackStrom.isAlive()) {
+    console.log('You lose');
+  } else if (!nebula.isAlive()){
+    console.log(`You have defeated ${nebula.name}`)
+  }
+  else if (jackStrom.isAlive()) {
     
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
@@ -181,7 +183,6 @@ attackButton.addEventListener("click", function () {
     jackStrom.charge(nebula);
     nebula.printHealth();
     nebula.damageTaken(jackStrom);
-
   }
   // Switch turns
   jackStromTurn = !jackStromTurn;

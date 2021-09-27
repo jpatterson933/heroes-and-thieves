@@ -5,7 +5,8 @@
 }
 
 /* wraps the details within the heros card */
-#hero-card-details-wrapper {
+#hero-card-details-wrapper,
+#character-details {
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   list-style: none;
