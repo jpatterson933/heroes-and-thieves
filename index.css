@@ -1,3 +1,5 @@
+
+
 #hero-list-wrapper {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -9,5 +11,15 @@
 #character-details {
   display: grid;
   grid-template-rows: repeat(4, 1fr);
+  list-style: none;
+}
+
+#battle-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+}
+
+#action-screen {
   list-style: none;
 }

@@ -25,8 +25,14 @@ class Character {
     return Math.round(attackAdjustment);
   }
 
-  damageTaken(opponent) {
-    console.log(`Damage Taken: ${opponent.attack}`)
+  chargeDamageTaken(attacker, defender) {
+    const dtWrapper = $("#action-screen");
+    const damageTakenMessage =  `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
+
+    
+    dtWrapper.append(damageTakenMessage)
+
+    console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
   }
 
 
@@ -39,6 +45,7 @@ class Character {
   }
   //a basic character attack
   charge(opponent) {
+
     console.log(`${this.name} charges ${opponent.name}`)
     opponent.health -= this.attack;
   }
@@ -54,10 +61,7 @@ class Character {
   }
 }
 
-// what I could do is create a function that reads oppoenents defense and returns a buffer unit
-// lets say defense is less than fifty, than the buffer from the attack is 0
-// but if defense is more than 50 but less than 250 then the buffer is more etc. etc.
-
+// defense buffer that buffers attack based off of characters defense levels
 const defenseBuffer = (defense) => {
   if (defense <= 0) {
     return 1.5;
@@ -87,7 +91,7 @@ const heroes = [jackStrom, devyBones]
 
 // console.log(heroes[0].name)
 //secondary characters
-const nebula = new Character('nubula', 1000, 50, 300);
+const nebula = new Character('Nubula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
 //boss character
 const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
@@ -110,29 +114,25 @@ let characterCardList = (heroes, appendTo) => {
       <li>Defense: ${heroes[i].defense}</li>
     </ul>
     `;
-
-    // here we cycle through our heroes list names
-    // for each one we append the heroes names to our dom
     appendTo.append(characterCard)
   }
 };
 
 // function to display individual characters (character, where to append card);
-const characterCardDisplay = (character, appendTo) => {
+const heroCardDisplay = (character, appendTo) => {
 
-    // character card list - can be used for any characters
+    // character card list for any character
     card = `
-    <h1>Hero Card</h1>
-    <ul id="character-details">
-      <li>${character.name}</li>
-      <li>Health: ${character.health}</li>
-      <li>Attack Strength: ${character.attack}</li>
-      <li>Defense: ${character.defense}</li>
-    </ul>
+    <div id="hero-card-wrapper">
+      <h1>Hero Card</h1>
+      <ul id="character-details">
+        <li>${character.name}</li>
+        <li>Health: ${character.health}</li>
+        <li>Attack Strength: ${character.attack}</li>
+        <li>Defense: ${character.defense}</li>
+      </ul>
+    </div>
     `;
-
-    // here we cycle through our heroes list names
-    // for each one we append the heroes names to our dom
     appendTo.append(card)
 }
 
@@ -165,7 +165,7 @@ attackButton.addEventListener("click", function () {
   if (!_clicked){
   
     const currentHeroCard = $("#current-hero-card");
-    characterCardDisplay(jackStrom, currentHeroCard);
+    heroCardDisplay(jackStrom, currentHeroCard);
     // sets click to true after appendage
     _clicked = true;
   };
@@ -182,7 +182,7 @@ attackButton.addEventListener("click", function () {
     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
     jackStrom.charge(nebula);
     nebula.printHealth();
-    nebula.damageTaken(jackStrom);
+    nebula.chargeDamageTaken(jackStrom, nebula);
   }
   // Switch turns
   jackStromTurn = !jackStromTurn;
