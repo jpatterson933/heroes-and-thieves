@@ -28,8 +28,6 @@ class Character {
   chargeDamageTaken(attacker, defender) {
     const dtWrapper = $("#action-screen");
     const damageTakenMessage =  `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
-
-    
     dtWrapper.append(damageTakenMessage)
 
     console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
