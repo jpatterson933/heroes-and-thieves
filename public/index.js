@@ -1,7 +1,7 @@
 
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
-  
+
   //defense never used here
   constructor(name, health, attack, defense) {
     this.name = name;
@@ -15,11 +15,8 @@ class Character {
   printHealth() {
     console.log(`${this.name} Health: ${this.health}`)
   }
-  
 
-
-
-
+  // our function to take into account defenders defense 
   attackAdjustment(attackPower, opponentDefense) {
 
     let buffer = defenseBuffer(opponentDefense);
@@ -29,14 +26,15 @@ class Character {
   }
 
   chargeDamageTaken(attacker, defender) {
-
-
-
-
+    // this displays the damage taken onto the screen
     const dtWrapper = $("#action-screen");
-    const damageTakenMessage =  `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
-    dtWrapper.append(damageTakenMessage)
+    // message that will be displayed onto the action screen
+    const damageTakenMessage = `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
+    // The ID on the html will be emptied each time before it displays the next attack message
+    dtWrapper.empty().append(damageTakenMessage)
 
+
+    // console loggin information - this was the basis for the game that was done first - console.log
     console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
   }
 
@@ -48,18 +46,19 @@ class Character {
     }
     return false;
   }
+
   //a basic character attack
   charge(opponent) {
-
     console.log(`${this.name} charges ${opponent.name}`)
     opponent.health -= this.attack;
   }
-  //jackstorm has a health regen ability that happens every 5 seconds
+  //health regen ability that happens every 5 seconds
   healthRegen() {
+    // health regeneration - occurs automatically - should initiate by clicking power up or some type of health
     console.log(`${this.name} has regnerated 30 Health`)
     this.health += 30;
   }
-  //2nd Tier Attack
+  //a superior character attack
   powerSlam(opponent) {
     console.log(`${this.name} POWER SLAMS ${opponent.name}`)
     opponent.health -= 1050
@@ -70,28 +69,24 @@ class Character {
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
 const devyBones = new Character('Devy Bones', 1180, 289, 45);
 
-// console.log(jackStrom)
-// for (let i = 0; i < jackStrom.length; i++){
-//   console.log("test")
-// }
-
+// heroes put into an array for looping purposes
 const heroes = [jackStrom, devyBones]
 
-// console.log(heroes[0].name)
 //secondary characters
 const nebula = new Character('Nubula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
-//boss character
+//boss characters
 const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
 
+// prints our health to the console
 jackStrom.printHealth()
 nebula.printHealth()
 
-// funciton to display hero list - parameter will be the heroes list
+// function to display hero list - parameter will be the heroes list - displays heach hero using a for loop
 const heroListWrapper = $("#hero-list-wrapper")
 let characterCardList = (heroes, appendTo) => {
 
-  // for loop to cycle through heroes
+  // for loop to cycle through heroes - should probably map through heroes for more control and stability
   for (let i = 0; i < heroes.length; i++) {
     // character card list - can be used for any characters
     characterCard = `
@@ -108,9 +103,8 @@ let characterCardList = (heroes, appendTo) => {
 
 // function to display individual characters (character, where to append card);
 const heroCardDisplay = (character, appendTo) => {
-
-    // character card list for any character
-    card = `
+  // character card list for any character
+  card = `
     <div id="hero-card-wrapper">
       <h1>Hero Card</h1>
       <ul id="character-details">
@@ -121,7 +115,26 @@ const heroCardDisplay = (character, appendTo) => {
       </ul>
     </div>
     `;
-    appendTo.append(card)
+    // appended to whatever is passed into the parameters of the function
+  appendTo.append(card);
+};
+
+// displays our thief card --
+const thiefCardDisplay = (character, appentTo) => {
+  // card that is created 
+  card = `
+  <div id="thief-card-wrapper">
+    <h1>Thief Card</h1>
+    <ul id="character-details">
+      <li>${character.name}</li>
+      <li>Health: ${character.health}</li>
+      <li>Attack Strength: ${character.attack}</li>
+      <li>Defense: ${character.defense}</li>
+    </ul>
+  </div>
+  `;
+  // will appent to whatever is passed into the function
+  appentTo.append(card);
 }
 
 
@@ -132,7 +145,7 @@ characterCardList(heroes, heroListWrapper);
 let jackStromTurn = true;
 
 // Need to turn this into a use potion function where Jackstrom will regenerate health 5 times after using a postion
-//jackStrom health regeneration happens every 5 seconds
+//jackStrom health regeneration happens every 5 seconds - should turn this into a clickable potion option
 const healthInterval = setInterval(() => {
   if (!jackStrom.isAlive()) {
     clearInterval(healthInterval)
@@ -146,26 +159,29 @@ const attackButton = document.getElementById("attack");
 // our click set to false for appending our current hero card;
 let _clicked = false;
 
-// function for heros attack
+// function for heroes attack
 attackButton.addEventListener("click", function () {
 
   // if statement that only allows one appendage on click
-  if (!_clicked){
-  
+  if (!_clicked) {
+    // grabs our current hero card element that exists in the html and displays the heroes information
     const currentHeroCard = $("#current-hero-card");
     heroCardDisplay(jackStrom, currentHeroCard);
+    // TRYING TO ADD OPPONENT CARD TO THE DISPLAY !!!!!
+    const currentThiefCard = $("#current-thief-card");
+    thiefCardDisplay(nebula, currentThiefCard)
     // sets click to true after appendage
     _clicked = true;
   };
 
   if (!jackStrom.isAlive()) {
     console.log('You lose');
-  } else if (!nebula.isAlive()){
+  } else if (!nebula.isAlive()) {
     console.log(`You have defeated ${nebula.name}`)
   }
   else if (jackStrom.isAlive()) {
 
-    
+
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
