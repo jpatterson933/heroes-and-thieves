@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
 
 
 </head>
+
 <body>
     <div id="hero-list-wrapper"></div>
     <!-- we should turn this div into a grid type with css styling  -->
@@ -19,13 +21,15 @@
         <!-- current hero that is in the battle-->
         <div id="current-hero-card"></div>
         <!-- This is where the actions are printed onto the screen -->
-        <div id="action-screen">
-            <!-- We need action type - damage recieved - other deets -->
-        </div>
-        <!-- current opponent card -->
-        <div id="current-thief-card">
+        <div>
+            <div id="attack-screen">
+                <!-- We need action type - damage recieved - other deets -->
+            </div>
+            <div id="health-screen"></div>
 
         </div>
+        <!-- current opponent card -->
+        <div id="current-thief-card"></div>
     </div>
     <button id="attack">Attack</button>
 
@@ -33,5 +37,7 @@
     <div id="test"></div>
 </body>
 <!-- scripts -->
+<script src="character.js"></script>
 <script src="index.js"></script>
+
 </html>

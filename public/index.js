@@ -1,70 +1,3 @@
-
-//basic character class // tomorrow try and add a class for boss characters
-class Character {
-
-  //defense never used here
-  constructor(name, health, attack, defense) {
-    this.name = name;
-    this.health = health;
-    this.attack = attack;
-    this.defense = defense;
-  }
-
-  //print health when a person is damaged // is there a way to print damage taken?
-  // this console logs the characters name and the characters health
-  printHealth() {
-    console.log(`${this.name} Health: ${this.health}`)
-  }
-
-  // our function to take into account defenders defense 
-  attackAdjustment(attackPower, opponentDefense) {
-
-    let buffer = defenseBuffer(opponentDefense);
-    // This randomizes our characters attack
-    let attackAdjustment = buffer * (attackPower * (Math.random() + 0.6));
-    return Math.round(attackAdjustment);
-  }
-
-  chargeDamageTaken(attacker, defender) {
-    // this displays the damage taken onto the screen
-    const dtWrapper = $("#action-screen");
-    // message that will be displayed onto the action screen
-    const damageTakenMessage = `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
-    // The ID on the html will be emptied each time before it displays the next attack message
-    dtWrapper.empty().append(damageTakenMessage)
-
-
-    // console loggin information - this was the basis for the game that was done first - console.log
-    console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
-  }
-
-
-  //this checks to see if our character is alive - returns a boolian of true character is alive or not
-  isAlive() {
-    if (this.health >= 0) {
-      return true;
-    }
-    return false;
-  }
-
-  //a basic character attack
-  charge(opponent) {
-    console.log(`${this.name} charges ${opponent.name}`)
-    opponent.health -= this.attack;
-  }
-  //health regen ability that happens every 5 seconds
-  healthRegen() {
-    // health regeneration - occurs automatically - should initiate by clicking power up or some type of health
-    console.log(`${this.name} has regnerated 30 Health`)
-    this.health += 30;
-  }
-  //a superior character attack
-  powerSlam(opponent) {
-    console.log(`${this.name} POWER SLAMS ${opponent.name}`)
-    opponent.health -= 1050
-  }
-}
-
 // hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character('JackStrom', 1000, 250, 75);
 const devyBones = new Character('Devy Bones', 1180, 289, 45);
@@ -115,7 +48,7 @@ const heroCardDisplay = (character, appendTo) => {
       </ul>
     </div>
     `;
-    // appended to whatever is passed into the parameters of the function
+  // appended to whatever is passed into the parameters of the function
   appendTo.append(card);
 };
 
@@ -159,7 +92,7 @@ const attackButton = document.getElementById("attack");
 // our click set to false for appending our current hero card;
 let _clicked = false;
 
-// function for heroes attack
+// function for heroes attack - OUR CARD DISPLAY FUNTIONS ARE IN HERE AS WELL AS 
 attackButton.addEventListener("click", function () {
 
   // if statement that only allows one appendage on click
@@ -187,7 +120,10 @@ attackButton.addEventListener("click", function () {
     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
     jackStrom.charge(nebula);
     nebula.printHealth();
+    // this is where we are printing out on screen the amount of damage taken by the attacker
     nebula.chargeDamageTaken(jackStrom, nebula);
+    // this is the amount of health left by the defender
+    nebula.healthLeft(nebula);
   }
   // Switch turns
   jackStromTurn = !jackStromTurn;
@@ -247,7 +183,7 @@ const nextTurnInterval = setInterval(() => {
 },
 );
 
-//boss fight
+//boss fight - ONLY EXISTS IN THE CONSOLE
 const levelOneBossFight = setInterval(() => {
   if (!grant.isAlive() || !jackStrom.isAlive() || !ironGiant.isAlive()) {
     clearInterval(levelOneBossFight);
