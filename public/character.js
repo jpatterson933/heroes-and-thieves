@@ -75,5 +75,16 @@ class Character {
       console.log(`${this.name} POWER SLAMS ${opponent.name}`)
       opponent.health -= 1050
     }
+
+    powerSlamDamageTaken(attacker, defender) {
+      // this displays the damage taken onto the screen
+      const dtWrapper = $("#attack-screen");
+      // message that will be displayed onto the action screen
+      const damageTakenMessage = `${attacker.name} Power Slammed ${defender.name} for ${attacker.attack} damage!`;
+      // The ID on the html will be emptied .empty() each time before it displays the next attack message
+      dtWrapper.empty().append(damageTakenMessage);
+      // console loggin information - this was the basis for the game that was done first - console.log
+      console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
+    };
   }
   

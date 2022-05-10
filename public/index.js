@@ -6,7 +6,7 @@ const devyBones = new Character('Devy Bones', 1180, 289, 45);
 const heroes = [jackStrom, devyBones]
 
 //secondary characters
-const nebula = new Character('Nubula', 1000, 50, 300);
+const nebula = new Character('Nebula', 1000, 50, 300);
 const grant = new Character('GRANT', 1000, 160, 109)
 //boss characters
 const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
@@ -74,7 +74,7 @@ const thiefCardDisplay = (character, appentTo) => {
 // displays our characters - first paramater is which character second parameter is where to append
 characterCardList(heroes, heroListWrapper);
 
-//defines jackstrom's turn
+//defines jackstrom's turn - ultimately this is the players turn to click
 let jackStromTurn = true;
 
 // Need to turn this into a use potion function where Jackstrom will regenerate health 5 times after using a postion
@@ -94,7 +94,6 @@ let _clicked = false;
 
 // function for heroes attack - OUR CARD DISPLAY FUNTIONS ARE IN HERE AS WELL AS 
 attackButton.addEventListener("click", function () {
-
   // if statement that only allows one appendage on click
   if (!_clicked) {
     // grabs our current hero card element that exists in the html and displays the heroes information
@@ -106,15 +105,13 @@ attackButton.addEventListener("click", function () {
     // sets click to true after appendage
     _clicked = true;
   };
-
+  // if statement that determins if our hero is alive
   if (!jackStrom.isAlive()) {
     console.log('You lose');
   } else if (!nebula.isAlive()) {
     console.log(`You have defeated ${nebula.name}`)
   }
   else if (jackStrom.isAlive()) {
-
-
     /* take heros attack and run it through the attack adjustment function
        this randomizes our attack power to provide more variability */
     jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
