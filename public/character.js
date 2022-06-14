@@ -1,7 +1,6 @@
 //basic character class // tomorrow try and add a class for boss characters
 class Character {
 
-
     //defense never used here
     constructor(name, health, attack, defense) {
       this.name = name;

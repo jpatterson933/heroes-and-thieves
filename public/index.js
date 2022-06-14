@@ -92,14 +92,16 @@ const attackButton = document.getElementById("attack");
 // our click set to false for appending our current hero card;
 let _clicked = false;
 
+
+// we should add multiple buttons for different attacks - think pokemonesque
 // function for heroes attack - OUR CARD DISPLAY FUNTIONS ARE IN HERE AS WELL AS 
 attackButton.addEventListener("click", function () {
   // if statement that only allows one appendage on click
   if (!_clicked) {
-    // grabs our current hero card element that exists in the html and displays the heroes information
+    // Hero Card
     const currentHeroCard = $("#current-hero-card");
     heroCardDisplay(jackStrom, currentHeroCard);
-    // TRYING TO ADD OPPONENT CARD TO THE DISPLAY !!!!!
+    // Thief Card
     const currentThiefCard = $("#current-thief-card");
     thiefCardDisplay(nebula, currentThiefCard)
     // sets click to true after appendage

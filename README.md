@@ -38,7 +38,7 @@ You can clone this repository.
 
 # Application Usage
 
-It is a fun game. To run on the terminal. I use gitBash and VS code. Anything similar will work. You will also need Node installed. Look on the website for more instructions.
+It is a fun game. To run on the terminal. I use gitBash and VS code. Anything similar will work. You will also need Node installed. Look on the website for more instructions. Currently working on turning this console game into a real game with a pleasant UI experience.
 
 [Back to Top](#table-of-contents)
 
