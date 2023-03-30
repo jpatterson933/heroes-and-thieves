@@ -6,62 +6,48 @@ const devyBones = new Character('Devy Bones', 1180, 289, 45);
 const heroes = [jackStrom, devyBones]
 
 //secondary characters
-const nebula = new Character('Nebula', 1000, 50, 300);
-const grant = new Character('GRANT', 1000, 160, 109)
+const nebula = new Character(1, 'Nebula', 1000, 50, 300);
+const grant = new Character(2, 'GRANT', 1000, 160, 109)
 //boss characters
-const ironGiant = new Character('Baby Iron Giant', 10000, 25, 0)
+const ironGiant = new Character(3, 'Baby Iron Giant', 10000, 25, 0)
 
 // prints our health to the console
-jackStrom.printHealth()
-nebula.printHealth()
+// jackStrom.printHealth()
+// nebula.printHealth()
 
-// function to display hero list - parameter will be the heroes list - displays heach hero using a for loop
-const heroListWrapper = $("#hero-list-wrapper")
-let characterCardList = (heroes, appendTo) => {
+let appendHeroDisplayCard = (hero, appendTo) => {
+  // Find an existing display card with the same data-hero-id
+  const existingDisplayCard = appendTo.find(`.card[data-hero-id="${hero.id}"]`);
 
-  // for loop to cycle through heroes - should probably map through heroes for more control and stability
-  for (let i = 0; i < heroes.length; i++) {
-    // character card list - can be used for any characters
-    characterCard = `
-    <ul id="hero-card-details-wrapper">
-      <li>${heroes[i].name}</li>
-      <li>Health: ${heroes[i].health}</li>
-      <li>Attack Strength: ${heroes[i].attack}</li>
-      <li>Defense: ${heroes[i].defense}</li>
-    </ul>
-    `;
-    appendTo.append(characterCard)
+  // If a display card exists, remove it
+  if (existingDisplayCard.length) {
+    existingDisplayCard.remove();
   }
-};
 
-// function to display individual characters (character, where to append card);
-const displayCharacterCard = (character, appendTo) => {
-  // character card list for any character
-  card = `
-        <li>${character.name}</li>
-        <li>Health: ${character.health}</li>
-        <li>Attack Strength: ${character.attack}</li>
-        <li>Defense: ${character.defense}</li>
-    `;
-  // appended to whatever is passed into the parameters of the function
-  appendTo.append(card);
+  // Append a new display card
+  const displayCard = hero.listDisplay();
+  appendTo.append(displayCard);
 };
 
 
+
+// top banner that holds are heros, we use the appendHeroDisplayCard to show heros
+const heroListWrapper = $("#hero-list-wrapper")
 // displays our characters - first paramater is which character second parameter is where to append
-characterCardList(heroes, heroListWrapper);
+appendHeroDisplayCard(jackStrom, heroListWrapper);
+appendHeroDisplayCard(nebula, heroListWrapper)
 
 //defines jackstrom's turn - ultimately this is the players turn to click
 let jackStromTurn = true;
 
 // Need to turn this into a use potion function where Jackstrom will regenerate health 5 times after using a postion
 //jackStrom health regeneration happens every 5 seconds - should turn this into a clickable potion option
-const healthInterval = setInterval(() => {
-  if (!jackStrom.isAlive()) {
-    clearInterval(healthInterval)
-  }
-  jackStrom.healthRegen();
-}, 5000);
+// const healthInterval = setInterval(() => {
+//   if (!jackStrom.isAlive()) {
+//     clearInterval(healthInterval)
+//   }
+//   jackStrom.healthRegen();
+// }, 5000);
 
 // grab our attack button
 const attackButton = document.getElementById("attack");
@@ -75,14 +61,6 @@ let _clicked = false;
 attackButton.addEventListener("click", function () {
   // if statement that only allows one appendage on click
   if (!_clicked) {
-    // Hero Card
-    // what we append to
-    const currentHeroCard = $("#hero-details");
-    const currentThiefCard = $("#thief-details");
-    displayCharacterCard(jackStrom, currentHeroCard);
-    displayCharacterCard(nebula, currentThiefCard);
-    // Thief Card
-    // sets click to true after appendage
     _clicked = true;
   };
   // if statement that determins if our hero is alive
@@ -100,7 +78,9 @@ attackButton.addEventListener("click", function () {
     // this is where we are printing out on screen the amount of damage taken by the attacker
     nebula.chargeDamageTaken(jackStrom, nebula);
     // this is the amount of health left by the defender
-    nebula.healthLeft(nebula);
+    // nebula.healthLeft(nebula);
+    // nebula.listDisplay()
+    appendHeroDisplayCard(nebula, heroListWrapper)
   }
   // Switch turns
   jackStromTurn = !jackStromTurn;

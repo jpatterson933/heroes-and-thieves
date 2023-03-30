@@ -1,9 +1,31 @@
-
+.header-title {
+  text-align: center;
+  font-size: 3em;
+  padding: 8px;
+  margin: 0;
+  background-color: aquamarine;
+  width: fit-content;
+  margin: 0 auto;
+  border-radius: 12px;
+  border: 3px dashed grey;
+}
 
 #hero-list-wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   text-align: center;
+}
+
+#action-screen {
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+  background: aquamarine;
+  padding: 2em 1em;
+  width: fit-content;
+  border-radius: 12px;
+  border: 3px dashed grey;
 }
 
 /* wraps the details within the heros card */
@@ -22,4 +44,15 @@
 
 #attack-screen {
   list-style: none;
+}
+.card {
+  background-color: grey;
+  padding: 12px;
+  border-radius: 12px;
+  border: 3px dashed aquamarine;
+}
+
+.highlight {
+  background-color: aquamarine;
+  border: 2px solid grey;
 }
