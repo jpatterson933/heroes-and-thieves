@@ -35,40 +35,17 @@ let characterCardList = (heroes, appendTo) => {
 };
 
 // function to display individual characters (character, where to append card);
-const heroCardDisplay = (character, appendTo) => {
+const displayCharacterCard = (character, appendTo) => {
   // character card list for any character
   card = `
-    <div id="hero-card-wrapper">
-      <h1>Hero Card</h1>
-      <ul id="character-details">
         <li>${character.name}</li>
         <li>Health: ${character.health}</li>
         <li>Attack Strength: ${character.attack}</li>
         <li>Defense: ${character.defense}</li>
-      </ul>
-    </div>
     `;
   // appended to whatever is passed into the parameters of the function
   appendTo.append(card);
 };
-
-// displays our thief card --
-const thiefCardDisplay = (character, appentTo) => {
-  // card that is created 
-  card = `
-  <div id="thief-card-wrapper">
-    <h1>Thief Card</h1>
-    <ul id="character-details">
-      <li>${character.name}</li>
-      <li>Health: ${character.health}</li>
-      <li>Attack Strength: ${character.attack}</li>
-      <li>Defense: ${character.defense}</li>
-    </ul>
-  </div>
-  `;
-  // will appent to whatever is passed into the function
-  appentTo.append(card);
-}
 
 
 // displays our characters - first paramater is which character second parameter is where to append
@@ -99,11 +76,12 @@ attackButton.addEventListener("click", function () {
   // if statement that only allows one appendage on click
   if (!_clicked) {
     // Hero Card
-    const currentHeroCard = $("#current-hero-card");
-    heroCardDisplay(jackStrom, currentHeroCard);
+    // what we append to
+    const currentHeroCard = $("#hero-details");
+    const currentThiefCard = $("#thief-details");
+    displayCharacterCard(jackStrom, currentHeroCard);
+    displayCharacterCard(nebula, currentThiefCard);
     // Thief Card
-    const currentThiefCard = $("#current-thief-card");
-    thiefCardDisplay(nebula, currentThiefCard)
     // sets click to true after appendage
     _clicked = true;
   };
