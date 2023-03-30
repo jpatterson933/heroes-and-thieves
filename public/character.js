@@ -47,8 +47,8 @@ class Character {
     // console.log(defenderHealth, "defender health", defender)
     const healthLeftMessage = `${defender.name} has ${defender.health} health left!`;
     this.listDisplay();
-    // dtWrapper.empty().append(healthLeftMessage);
-    console.log(`${defender.name} has ${defender.health} left!`)
+    dtWrapper.empty().append(healthLeftMessage);
+    // console.log(`${defender.name} has ${defender.health} left!`)
   }
 
   // our function to take into account defenders defense 
@@ -69,24 +69,37 @@ class Character {
 
   //------------------ THIS FUNCTION IS THE ONLY FUNCTION WE HAVE PRINTING ONTO OUR ACTION SCREEN--------------------------------//
   chargeDamageTaken(attacker, defender) {
+    const damage = attacker.attack;
     // this displays the damage taken onto the screen
     const dtWrapper = $("#attack-screen");
     // message that will be displayed onto the action screen
-    const damageTakenMessage = `${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`;
+    const message = `${attacker.name} has charged into ${defender.name} for ${damage} damage!`;
     // The ID on the html will be emptied each time before it displays the next attack message
-    dtWrapper.empty().append(damageTakenMessage);
+    dtWrapper.empty().append(message);
     // console loggin information - this was the basis for the game that was done first - console.log
-    console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
+    // console.log(`${attacker.name} has charged into ${defender.name} for ${attacker.attack} damage!`)
   };
   //-------------------ACTION SCREEN FUNCTION WRAPPER ---------------------------------------------------------------------------//
 
 
-  //this checks to see if our character is alive - returns a boolian of true character is alive or not
+  // Add this method inside the Character class
+  deathMessage() {
+    const dtWrapper = $("#attack-screen");
+    const message = `${this.name} is dead!`;
+    dtWrapper.empty().append(message);
+
+    setTimeout(() => {
+      dtWrapper.empty();
+    }, 3000);
+  }
+
   isAlive() {
-    if (this.health >= 0) {
+    if (this.health > 0) {
       return true;
+    } else {
+      this.deathMessage();
+      return false;
     }
-    return false;
   }
 
 
