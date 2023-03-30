@@ -1,3 +1,4 @@
+
 // hero (can do a list of heros)        //health, attack, defense
 const jackStrom = new Character(1, 'JackStrom', 1000, 250, 75);
 const devyBones = new Character(2, 'Devy Bones', 1180, 289, 45);
@@ -65,6 +66,7 @@ const attackMain = () => {
 
     // if statement that determins if our hero is alive
     if (!jackStrom.isAlive()) {
+      
       console.log('You lose');
     } else if (!nebula.isAlive()) {
       console.log(`You have defeated ${nebula.name}`)
