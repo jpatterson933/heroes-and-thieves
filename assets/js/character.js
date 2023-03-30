@@ -7,14 +7,77 @@ class Character {
     this.health = health;
     this.attack = attack;
     this.defense = defense;
+    this.isSelected = false; // property to track selected state
+    this.characterCard = null;
   }
+  // set selected card to null
+  static selectedCard = null;
+  static selectedCharacter = null;
+
+  // ------------- static methods ------------------//
+  static appendHeroDisplayCard = async (hero) => {
+
+    const characterDisplay = $("#hero-list-wrapper")
+
+    // Find an existing display card with the same data-hero-id
+    const existingCard = characterDisplay.find(`.card[data-hero-id="${hero.id}"]`);
+
+    // If a display card exists, remove it
+    if (existingCard.length) {
+      existingCard.remove();
+    }
+
+    // Append a new display card
+    const displayCard = hero.listDisplay();
+    characterDisplay.append(displayCard);
+  };
+
+  static removeHeroDisplayCard = (hero) => {
+    const characterDisplay = $("#hero-list-wrapper")
+
+    // Find an existing display card with the same data-hero-id
+    const existingDisplayCard = characterDisplay.find(`.card[data-hero-id="${hero.id}"]`);
+
+    // If a display card exists, remove it
+    if (existingDisplayCard.length) {
+      existingDisplayCard.remove();
+    }
+  }
+
+  // ------------- static methods ------------------//
 
   // eventlistener
   highlightCard(event) {
     // get the card element and toggle the highlight class
     const card = event.currentTarget;
-    card.classList.toggle("highlight");
+    console.log(card, "card here")
+    if (card === Character.selectedCard) {
+      return; // do nothing
+    }
+
+    if (Character.selectedCard) {
+      Character.selectedCard.classList.remove("main-card");
+      Character.selectedCard.classList.remove("highlight");
+      Character.selectedCharacter.isSelected = false;
+    }
+    // highlight this card and set it as the selected card
+    card.classList.add("highlight");
+    card.classList.add("main-card");
+    this.isSelected = true;
+    Character.selectedCard = card;
+    Character.selectedCharacter = this;
   }
+  // this will update the health of the person getting attacked
+  // this method will be put onto the attacker instance
+  updateHealth (opponent) {
+    opponent.health -= this.attack;
+    if(this.characterCard){
+      const healthText = opponent.characterCard.querySelector('.health');
+      if(healthText){
+        healthText.textContent = `Health ${opponent.health}`;
+      }
+    }
+  } 
 
   // display the card in the herolistwrapper
   listDisplay() {
@@ -23,76 +86,35 @@ class Character {
     characterCard.setAttribute('data-hero-id', this.id);
     characterCard.innerHTML = `
         <h3>${this.name}</h3>
-        <p>Health: ${this.health}</p>
+        <p class="health">Health: ${this.health}</p>
         <p>Attack Strength: ${this.attack}</p>
         <p>Defense: ${this.defense}</p>
     `;
     characterCard.addEventListener('click', (event) => this.highlightCard(event));
+    this.characterCard = characterCard;
     return characterCard;
   }
 
-  // printHealth() {
-  //   console.log(`${this.name} Health: ${this.health}`)
-  // }
+  //------------------- ACTION SCREEN METHODS -------------------//
 
-  healthLeft(defender) {
-    const dtWrapper = $("#health-screen");
-    const healthLeftMessage = `${defender.name} has ${defender.health} health left!`;
-    this.listDisplay();
-    dtWrapper.empty().append(healthLeftMessage);
-  }
-
-  // our function to take into account defenders defense 
-  attackAdjustment(attackPower, opponentDefense) {
-    let buffer = defenseBuffer(opponentDefense);
-    // This randomizes our characters attack
-    let attackAdjustment = buffer * (attackPower * (Math.random() + 0.6));
-    return Math.round(attackAdjustment);
-  }
-
-  // CHARGE ATTACK FOLLOWED BY CHARGE DAMAGE TAKEN BEING DISPLAYED ONTO ACTION SCREEN
-  //a basic character attack - parameter is whoever is being attacked
-  charge(opponent) {
-    // console.log(`${this.name} charges ${opponent.name}`)
-    opponent.health -= this.attack;
-  }
-
-  //------------------ THIS FUNCTION IS THE ONLY FUNCTION WE HAVE PRINTING ONTO OUR ACTION SCREEN--------------------------------//
   chargeDamageTaken(attacker, defender) {
     const damage = attacker.attack;
     // this displays the damage taken onto the screen
-    const dtWrapper = $("#attack-screen");
+    const screen = $("#attack-screen");
     // message that will be displayed onto the action screen
     const message = `${attacker.name} has charged into ${defender.name} for ${damage} damage!`;
     // The ID on the html will be emptied each time before it displays the next attack message
-    dtWrapper.empty().append(message);
+    screen.empty().append(message);
   };
-  //-------------------ACTION SCREEN FUNCTION WRAPPER ---------------------------------------------------------------------------//
 
+
+  //---------------------HEALTH METHODS BELOW-----------------------//
   isAlive() {
-    if (this.health > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return (this.health >= 0) ? true : false;
   }
 
-  //health regen ability that happens every 5 seconds
-  // this happens inside an interval and not actually in this method
-  healthRegen() {
-    this.health += 30;
+  //---------------------ATTACK METHODS BELOW-----------------------//
+  basic(opponent) {
+    opponent.health -= this.attack;
   }
-  //a superior character attack
-  powerSlam(opponent) {
-    opponent.health -= 1050
-  }
-
-  powerSlamDamageTaken(attacker, defender) {
-    // this displays the damage taken onto the screen
-    const dtWrapper = $("#attack-screen");
-    // message that will be displayed onto the action screen
-    const damageTakenMessage = `${attacker.name} Power Slammed ${defender.name} for ${attacker.attack} damage!`;
-    // The ID on the html will be emptied .empty() each time before it displays the next attack message
-    dtWrapper.empty().append(damageTakenMessage);
-  };
 }
