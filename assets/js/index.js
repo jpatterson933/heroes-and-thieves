@@ -78,7 +78,6 @@ const attackMain = () => {
       jackStrom.attack = jackStrom.attackAdjustment(jackStrom.attack, nebula.defense)
       appendHeroDisplayCard(jackStrom, heroListWrapper)
       jackStrom.charge(nebula);
-      // nebula.printHealth();
       appendHeroDisplayCard(nebula, heroListWrapper)
       // this is where we are printing out on screen the amount of damage taken by the attacker
       nebula.chargeDamageTaken(jackStrom, nebula);
@@ -94,7 +93,6 @@ const attackMain = () => {
 
 attackMain()
 
-grant.printHealth()
 
 //we know nebula is going to lose so we set up the next fight and rig the system
 //so we can say in this when nebular is ! alive excuted next fight
@@ -113,11 +111,9 @@ const nextTurnInterval = setInterval(() => {
         jackStrom.charge(grant);
         grant.chargeDamageTaken(jackStrom, grant)
         appendHeroDisplayCard(grant, heroListWrapper)
-        grant.printHealth();
       } else {
         grant.charge(jackStrom);
         appendHeroDisplayCard(jackStrom, heroListWrapper);
-        jackStrom.printHealth();
       }
 
       // Switch turns
@@ -143,10 +139,8 @@ const levelOneBossFight = setInterval(() => {
 
         jackStrom.powerSlam(ironGiant);
 
-        ironGiant.printHealth();
       } else {
         ironGiant.charge(jackStrom);
-        jackStrom.printHealth();
       }
 
       // Switch turns
