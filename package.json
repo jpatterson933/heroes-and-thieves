@@ -1,0 +1,12 @@
+{
+  "name": "heroes-and-thieves",
+  "version": "1.0.0",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd ./client && npm start"
+  },
+  "author": "",
+  "license": "ISC"
+}

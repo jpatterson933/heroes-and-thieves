@@ -1,4 +1,4 @@
-# Legen of jackStrom
+# Legen of jackStrom aka Heroes and Thieves
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -26,19 +26,25 @@ this software or any code within this application.
 
 # Application Description
 
-This is a mini project where I will work on the legend of jackStrom. He is a GOD trapped in a man's body trapped in my javascript.
+This is a mini project where I will work on creating a card game where someone can battle it out and collect cards that are heroes and thieves.
+
+Currently, I am working on turning this simple html, css, and javascript app into a full stack application.
 
 [Back to Top](#table-of-contents)
 
 # Installation Instructions
 
-You can clone this repository.
+You can clone this repository. 
+
+Over the course of time, I will work on creating simple script to run in the root directory that will control and spin up the app with very little typing necessary.
 
 [Back to Top](#table-of-contents)
 
 # Application Usage
 
 It is a fun game. To run on the terminal. I use gitBash and VS code. Anything similar will work. You will also need Node installed. Look on the website for more instructions. Currently working on turning this console game into a real game with a pleasant UI experience.
+
+As I begin turning this into a full-stack application, I will be implementing a ton of new features over time.
 
 [Back to Top](#table-of-contents)
 
