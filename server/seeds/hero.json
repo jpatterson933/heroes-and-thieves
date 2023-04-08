@@ -1,8 +1,9 @@
 [
     {
         "name": "JackStrom",
-        "attackStrength": 2200,
-        "defensiveStrength": 1000,
+        "health": 1000,
+        "attackStrength": 20,
+        "defensiveStrength": 100,
         "characterType": "1_warrior"
     }
 ]

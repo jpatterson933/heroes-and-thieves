@@ -8,6 +8,11 @@ const heroSchema = new Schema(
             required: true,
             max_length: 15,
         },
+        health: {
+            type: Number,
+            required: true,
+            max_length: 10
+        },
         attackStrength: {
             type: Number,
             required: true,
