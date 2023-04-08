@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const characterType = require("./CharacterType");
 
 const heroSchema = new Schema(
     {
@@ -11,6 +12,15 @@ const heroSchema = new Schema(
             type: Number,
             required: true,
             max_length: 10,
+        },
+        defensiveStrength: {
+            type: Number,
+            required: true,
+            max_length: 15,
+        },
+        characterType: {
+            type: String, // we set the character type by the characterType _id
+            required: true
         }
 
     }
