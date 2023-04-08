@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
 
+// error catching for db connection
 db.on("error", (error) => {
     console.log(error, "error with stuff")
 })
