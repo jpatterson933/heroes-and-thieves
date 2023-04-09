@@ -1,0 +1,11 @@
+[
+    {
+        "_id": "1_health_potion",
+        "name": "Health Potion",
+        "itemType": "potion",
+        "description": "A simple potion that restores health.",
+        "effect": {
+            "health": 20
+        }
+    }
+]
