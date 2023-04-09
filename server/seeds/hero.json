@@ -1,8 +1,8 @@
 [
     {
-        "name": "JackStrom",
+        "name": "Basic Hero",
         "health": 1000,
-        "attackStrength": 20,
+        "attackStrength": 50,
         "defensiveStrength": 100,
         "characterType": "1_warrior"
     }
